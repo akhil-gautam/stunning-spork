@@ -6,9 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dstart": "npm run watch:css && npm run devstart",
-    "build": "NODE_ENV=production webpack --config webpack.prod.js",
+    "build": "NODE_ENV=production npm run watch:css && webpack --config webpack.prod.js",
     "start": "webpack serve --config webpack.dev.js --hot",
-    "watch:css": "postcss src/assets/tailwind.css -o src/assets/main.css"
+    "watch:css": "tailwindcss build src/assets/main.scss -o src/assets/output.css"
   },
   "keywords": [
     "tailwind",

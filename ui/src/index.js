@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import './assets/main.scss';
+import './assets/output.css';
 
 import { Alert, TextInput, TextArea } from '../lib/components';
 
@@ -24,7 +24,7 @@ const App = () => {
         helperType='warn'
       />
       <TextInput labelChild='Last Name' placeholder='Enter these' />
-      <TextArea rows={5} placeholder="I am inside a textarea"/>
+      <TextArea rows={5} placeholder='I am inside a textarea' />
     </div>
   );
 };
