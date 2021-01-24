@@ -1,0 +1,11 @@
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+.blur {
+  filter: blur(7rem);
+  opacity: 0.9;
+}
