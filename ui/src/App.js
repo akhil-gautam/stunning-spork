@@ -1,6 +1,6 @@
 import React from 'react';
-
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { QuizCreate } from './components';
 
@@ -11,7 +11,7 @@ const App = () => {
         <Route path='/quiz/:id/create'>
           <QuizCreate />
         </Route>
-        <Route path='/quiz/create'>
+        <Route path='/create'>
           <QuizCreate />
         </Route>
 

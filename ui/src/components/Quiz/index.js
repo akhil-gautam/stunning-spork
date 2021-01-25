@@ -1,39 +1,89 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import Axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 import QuestionsContext from '../../contexts/QuestionsContext';
-
 import Create from './Create';
+import QuestionForm from './QuestionForm';
 import LeftWindow from './LeftWindow';
-
-const defaultQuestion = {
-  key: 1,
-  title: '',
-  description: '',
-  options: [],
-  correct: null,
-};
+import EmptyForm from './EmptyQuestionPage';
 
 const Quiz = () => {
-  const [questions, setQuestions] = useState([defaultQuestion]);
+  const [questions, setQuestions] = useState([]);
   const [active, setActive] = useState('');
 
-  const changeActive = (index) => {
-    setActive(index);
+  const history = useHistory();
+  const quizID = history.location.pathname.split('/')[2];
+
+  const changeActive = (id) => {
+    setActive(id);
   };
 
-  const addQuestion = async () => {
-    defaultQuestion.key = questions[questions.length - 1].key + 1;
-    setQuestions([...questions, defaultQuestion]);
-    setActive(question.key);
+  const fetchQuestions = async () => {
+    try {
+      const response = await Axios.get(`/questions?quiz_id=${quizID}`);
+      console.log(response);
+      setQuestions(response);
+    } catch (e) {
+      console.log(e);
+    }
   };
+
+  const createQuiz = async (values) => {
+    try {
+      const response = await Axios.post(
+        'http://localhost:3000/quizzes',
+        values
+      );
+      history.push(`quiz/${response.data.uuid}/create`);
+      toast.success('Quiz created successfully!', {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const addQuestion = async (values = {}) => {
+    try {
+      const response = await Axios.post('http://localhost:3000/questions', {
+        ...values,
+        quizID,
+      });
+      setActive(response.id);
+      toast.success('Question added successfully!', {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      fetchQuestions();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const renderForms = () => {
+    if (quizID) {
+      if (questions.length) {
+        return <QuestionForm />;
+      } else {
+        return <EmptyForm addQuestion={addQuestion} />;
+      }
+    } else {
+      return <Create createQuiz={createQuiz} />;
+    }
+  };
+
+  useEffect(() => {
+    fetchQuestions();
+  }, []);
 
   return (
     <div className='w-full flex flex-col'>
       <Header />
       <section className='flex w-full'>
-        <QuestionsContext.Provider value={{ questions }}>
+        <QuestionsContext.Provider value={{ questions, createQuiz }}>
           <LeftWindow changeActive={changeActive} addQuestion={addQuestion} />
-          <Create active={active} />
+          {renderForms()}
         </QuestionsContext.Provider>
       </section>
     </div>
