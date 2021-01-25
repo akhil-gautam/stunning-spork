@@ -1,5 +1,7 @@
 import React from 'react';
 
+import QuestionsContext from '../../contexts/QuestionsContext';
+
 import Create from './Create';
 import LeftWindow from './LeftWindow';
 
@@ -8,8 +10,10 @@ const Quiz = () => {
     <div className='w-full flex flex-col'>
       <Header />
       <section className='flex w-full'>
-        <LeftWindow />
-        <Create />
+        <QuestionsContext.Provider>
+          <LeftWindow />
+          <Create />
+        </QuestionsContext.Provider>
       </section>
     </div>
   );
