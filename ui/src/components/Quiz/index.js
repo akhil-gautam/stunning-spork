@@ -1,18 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import QuestionsContext from '../../contexts/QuestionsContext';
 
 import Create from './Create';
 import LeftWindow from './LeftWindow';
 
+const defaultQuestion = {
+  key: 1,
+  title: '',
+  description: '',
+  options: [],
+  correct: null,
+};
+
 const Quiz = () => {
+  const [questions, setQuestions] = useState([defaultQuestion]);
+  const [active, setActive] = useState('');
+
+  const changeActive = (index) => {
+    setActive(index);
+  };
+
+  const addQuestion = async () => {
+    defaultQuestion.key = questions[questions.length - 1].key + 1;
+    setQuestions([...questions, defaultQuestion]);
+    setActive(question.key);
+  };
+
   return (
     <div className='w-full flex flex-col'>
       <Header />
       <section className='flex w-full'>
-        <QuestionsContext.Provider>
-          <LeftWindow />
-          <Create />
+        <QuestionsContext.Provider value={{ questions }}>
+          <LeftWindow changeActive={changeActive} addQuestion={addQuestion} />
+          <Create active={active} />
         </QuestionsContext.Provider>
       </section>
     </div>

@@ -2,12 +2,15 @@ import React from 'react';
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import { QuizCreate, MainWrapper } from './components';
+import { QuizCreate } from './components';
 
 const App = () => {
   return (
     <Router>
       <Switch>
+        <Route path='/quiz/:id/create'>
+          <QuizCreate />
+        </Route>
         <Route path='/quiz/create'>
           <QuizCreate />
         </Route>

@@ -1,20 +1,31 @@
 import React from 'react';
+import QuestionsContext from '../../contexts/QuestionsContext';
 
 import QuestionForm from './QuestionForm';
 
-const Create = () => {
+const Create = ({ updateQuestion }) => {
   return (
     <div className='flex flex-col w-full'>
-      {/* <section className='py-4 px-8 rounded-xl'>
-        <h3 className='text-center font-bold text-3xl mb-10'>Create Quiz</h3>
-        <TitleForm />
-      </section> */}
-      <QuestionForm />
+      <QuestionsContext.Consumer>
+        {(questions) =>
+          // TODO: change me to !questions.length
+          questions.length ? (
+            <section className='py-4 px-8 rounded-xl'>
+              <h3 className='text-center font-bold text-3xl mb-10'>
+                Create Quiz
+              </h3>
+              <TitleForm />
+            </section>
+          ) : (
+            <QuestionForm />
+          )
+        }
+      </QuestionsContext.Consumer>
     </div>
   );
 };
 
-const TitleForm = ({}) => (
+const TitleForm = () => (
   <form className='flex flex-col space-y-4'>
     <label className='flex flex-col space-y-1'>
       <span className='text-2xl font-normal'>Title</span>

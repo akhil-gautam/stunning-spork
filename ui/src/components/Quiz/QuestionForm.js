@@ -1,48 +1,40 @@
 import React, { useState } from 'react';
 
-const QuestionForm = () => {
-  const [questions, setQuestions] = useState([]);
-
+const QuestionForm = ({ key }) => {
   return (
     <section className='h-full bg-gradient-to-r to-purple-100 from-gray-50 px-16 py-20'>
       <div className='bg-white h-full rounded-lg py-16 px-8'>
-        <Question />
+        <form className='w-full flex flex-col items-start pl-12'>
+          <label className='w-full flex space-x-2 text-2xl mb-3'>
+            <span>{key}) </span>
+            <input
+              placeholder='Edit me to make me your question?'
+              // value=''
+              className='w-full focus:outline-none question'
+              onChange={() => {}}
+            />
+          </label>
+
+          <label className='w-full flex space-x-2 text-lg text-gray-400 mb-16'>
+            <input
+              placeholder='(Some optional description)'
+              // value=''
+              className='w-full focus:outline-none question-description'
+              onChange={() => {}}
+            />
+          </label>
+          <div className='space-y-3 min-w-32'>
+            <Option />
+          </div>
+          <button
+            type='button'
+            className='underline mt-8 text-xl text-gray-700 focus:outline-none'
+          >
+            Add Option
+          </button>
+        </form>
       </div>
     </section>
-  );
-};
-
-const Question = ({ number = 1 }) => {
-  return (
-    <form className='w-full flex flex-col items-start pl-12'>
-      <label className='w-full flex space-x-2 text-2xl mb-3'>
-        <span>{number}) </span>
-        <input
-          placeholder='Edit me to make me your question?'
-          // value=''
-          className='w-full focus:outline-none question'
-          onChange={() => {}}
-        />
-      </label>
-
-      <label className='w-full flex space-x-2 text-2xl mb-16'>
-        <input
-          placeholder='(Some optional description)'
-          // value=''
-          className='w-full focus:outline-none question-description'
-          onChange={() => {}}
-        />
-      </label>
-      <div className='space-y-3 min-w-32'>
-        <Option />
-      </div>
-      <button
-        type='button'
-        className='underline mt-8 text-xl text-gray-700 focus:outline-none'
-      >
-        Add Option
-      </button>
-    </form>
   );
 };
 
@@ -50,7 +42,7 @@ const Option = () => {
   return (
     <label className='relative flex justify-between items-center group px-4 py-4 space-x-4 rounded-md border border-gray-600 transition ease-in hover:shadow-md'>
       <input
-        className='w-full focus:outline-none ml-auto option bg-transparent'
+        className='w-full focus:outline-none ml-auto option font-bold text-lg bg-transparent'
         placeholder='Option(edit)'
         onChange={() => {}}
       />
