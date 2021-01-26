@@ -1,8 +1,6 @@
 import React from 'react';
 
-import QuestionsContext from '../../contexts/QuestionsContext';
-
-const LeftWindow = ({ changeActive, addQuestion }) => {
+const LeftWindow = ({ questions = [], setActive, addQuestion }) => {
   return (
     <div className='w-72 h-screen flex flex-col'>
       <header className='flex items-center justify-between px-2 py-4 text-md font-semibold tracking-wider'>
@@ -30,23 +28,24 @@ const LeftWindow = ({ changeActive, addQuestion }) => {
         </button>
       </header>
       <hr className='w-full mb-8' />
-      <QuestionsContext.Consumer>
-        {(questions) =>
-          questions.length ? (
-            <ul className='px-1'>
-              {questions.map((question, index) => (
-                <li onClick={() => changeActive(index)}>
-                  <QuestionPreview question={question} />
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <div className='text-sm text-gray-600 rounded-md bg-gradient-to-tr from-purple-50 to-gray-50 px-6 py-2'>
-              Your questions will be previewed here
-            </div>
-          )
-        }
-      </QuestionsContext.Consumer>
+
+      {questions.length ? (
+        <ul className='px-1 space-y-4'>
+          {questions.map((question, i) => (
+            <li
+              onClick={() => setActive(question.id)}
+              key={i}
+              className='cursor-pointer hover:bg-blue-50 transition ease-in'
+            >
+              <QuestionPreview number={i + 1} question={question} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div className='text-sm text-gray-600 rounded-md bg-gradient-to-tr from-purple-50 to-gray-50 px-6 py-2'>
+          Your questions will be previewed here
+        </div>
+      )}
     </div>
   );
 };
@@ -76,7 +75,7 @@ const QuestionPreview = ({
     </div>
     <div className='text-sm'>
       <span>{number}.&nbsp;</span>
-      <span className='text-gray-400 font-normal'>{title}</span>
+      <span className='text-gray-400 font-normal'>{title || '...'}</span>
     </div>
   </div>
 );

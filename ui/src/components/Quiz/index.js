@@ -22,9 +22,11 @@ const Quiz = () => {
 
   const fetchQuestions = async () => {
     try {
-      const response = await Axios.get(`/questions?quiz_id=${quizID}`);
-      console.log(response);
-      setQuestions(response);
+      const response = await Axios.get(
+        `http://localhost:3000/questions?quiz_id=${quizID}`
+      );
+      setQuestions(response.data);
+      setActive(response.data[response.data.length - 1].id);
     } catch (e) {
       console.log(e);
     }
@@ -47,10 +49,15 @@ const Quiz = () => {
 
   const addQuestion = async (values = {}) => {
     try {
+      console.log({
+        ...values,
+        quizID,
+      });
       const response = await Axios.post('http://localhost:3000/questions', {
         ...values,
         quizID,
       });
+
       setActive(response.id);
       toast.success('Question added successfully!', {
         position: toast.POSITION.TOP_CENTER,
@@ -66,7 +73,13 @@ const Quiz = () => {
       if (questions.length) {
         return <QuestionForm />;
       } else {
-        return <EmptyForm addQuestion={addQuestion} />;
+        return (
+          <EmptyForm
+            quizID={quizID}
+            setActive={setActive}
+            refetch={fetchQuestions}
+          />
+        );
       }
     } else {
       return <Create createQuiz={createQuiz} />;
@@ -82,7 +95,12 @@ const Quiz = () => {
       <Header />
       <section className='flex w-full'>
         <QuestionsContext.Provider value={{ questions, createQuiz }}>
-          <LeftWindow changeActive={changeActive} addQuestion={addQuestion} />
+          <LeftWindow
+            questions={questions}
+            changeActive={changeActive}
+            addQuestion={addQuestion}
+            setActive={setActive}
+          />
           {renderForms()}
         </QuestionsContext.Provider>
       </section>
