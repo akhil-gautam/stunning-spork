@@ -9,7 +9,7 @@ const EmptyForm = ({ setActive, refetch, quizID }) => {
         quiz_id: quizID,
       });
       refetch();
-      setActive(response.data.id);
+      setActive({ index: 1, id: response.data.id });
       toast.success('Question added successfully!', {
         position: toast.POSITION.TOP_CENTER,
       });

@@ -11,7 +11,7 @@ import EmptyForm from './EmptyQuestionPage';
 
 const Quiz = () => {
   const [questions, setQuestions] = useState([]);
-  const [active, setActive] = useState('');
+  const [active, setActive] = useState();
 
   const history = useHistory();
   const quizID = history.location.pathname.split('/')[2];
@@ -47,31 +47,37 @@ const Quiz = () => {
     }
   };
 
-  const addQuestion = async (values = {}) => {
-    try {
-      console.log({
-        ...values,
-        quizID,
-      });
-      const response = await Axios.post('http://localhost:3000/questions', {
-        ...values,
-        quizID,
-      });
+  // const addQuestion = async (values = {}) => {
+  //   try {
+  //     console.log({
+  //       ...values,
+  //       quizID,
+  //     });
+  //     const response = await Axios.post('http://localhost:3000/questions', {
+  //       ...values,
+  //       quizID,
+  //     });
 
-      setActive(response.id);
-      toast.success('Question added successfully!', {
-        position: toast.POSITION.TOP_CENTER,
-      });
-      fetchQuestions();
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  //     setActive(response.id);
+  //     toast.success('Question added successfully!', {
+  //       position: toast.POSITION.TOP_CENTER,
+  //     });
+  //     fetchQuestions();
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+
+  // const activeQuestion = () => {
+  //   questions && questions.filter((q) => q.id === active.id);
+  // };
 
   const renderForms = () => {
     if (quizID) {
       if (questions.length) {
-        return <QuestionForm />;
+        return (
+          <QuestionForm active={active} />
+        );
       } else {
         return (
           <EmptyForm
@@ -98,7 +104,7 @@ const Quiz = () => {
           <LeftWindow
             questions={questions}
             changeActive={changeActive}
-            addQuestion={addQuestion}
+            // addQuestion={addQuestion}
             setActive={setActive}
           />
           {renderForms()}

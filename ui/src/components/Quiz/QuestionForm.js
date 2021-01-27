@@ -1,47 +1,53 @@
-import React, { useState } from 'react';
-import QuestionsContext from '../../contexts/QuestionsContext';
+import React, { useEffect, useState } from 'react';
 
-const QuestionForm = ({ updateQuestion, active_id }) => {
+const QuestionForm = ({ index, question }) => {
+  const [values, setValues] = useState(question);
+  console.log(values)
+
+  // useEffect(() => {
+  //   if (question) {
+  //     debugger
+  //     const { title, description } = question;
+  //     setValues({ title, description });
+  //   }
+  // }, [question]);
+
   return (
-    <QuestionsContext.Consumer>
-      {({ questions }) => (
-        <div className='flex flex-col w-full'>
-          <section className='h-full bg-gradient-to-r to-purple-100 from-gray-50 px-16 py-20'>
-            <div className='bg-white h-full rounded-lg py-16 px-8'>
-              <form className='w-full flex flex-col items-start pl-12'>
-                <label className='w-full flex space-x-2 text-2xl mb-3'>
-                  <span>{questions.length + 1}) </span>
-                  <input
-                    placeholder='Edit me to make me your question?'
-                    // value=''
-                    className='w-full focus:outline-none question'
-                    onChange={() => {}}
-                  />
-                </label>
+    <div className='flex flex-col w-full'>
+      <section className='h-full bg-gradient-to-r to-purple-100 from-gray-50 px-16 py-20'>
+        <div className='bg-white h-full rounded-lg py-16 px-8'>
+          <form className='w-full flex flex-col items-start pl-12'>
+            <label className='w-full flex space-x-2 text-2xl mb-3'>
+              <span>{index}) </span>
+              <input
+                placeholder='Edit me to make me your question?'
+                value={values.title}
+                className='w-full focus:outline-none question'
+                onChange={() => {}}
+              />
+            </label>
 
-                <label className='w-full flex space-x-2 text-lg text-gray-400 mb-16'>
-                  <input
-                    placeholder='(Some optional description)'
-                    // value=''
-                    className='w-full focus:outline-none question-description'
-                    onChange={() => {}}
-                  />
-                </label>
-                <div className='space-y-3 min-w-32'>
-                  <Option />
-                </div>
-                <button
-                  type='button'
-                  className='underline mt-8 text-xl text-gray-700 focus:outline-none'
-                >
-                  Add Option
-                </button>
-              </form>
+            <label className='w-full flex space-x-2 text-lg text-gray-400 mb-16'>
+              <input
+                placeholder='(Some optional description)'
+                // value=''
+                className='w-full focus:outline-none question-description'
+                onChange={() => {}}
+              />
+            </label>
+            <div className='space-y-3 min-w-32'>
+              <Option />
             </div>
-          </section>
+            <button
+              type='button'
+              className='underline mt-8 text-xl text-gray-700 focus:outline-none'
+            >
+              Add Option
+            </button>
+          </form>
         </div>
-      )}
-    </QuestionsContext.Consumer>
+      </section>
+    </div>
   );
 };
 
